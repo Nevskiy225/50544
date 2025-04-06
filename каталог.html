@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог одежды | 50541</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Дополнительные стили для каталога */
+        .catalog {
+            padding: 50px;
+        }
+        
+        .catalog h2 {
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background-color: #ff6b6b;
+            color: white;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-card img {
+            width: 100%;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            transition: opacity 0.3s ease;
+        }
+        
+        .product-card .hover-image {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            opacity: 0;
+        }
+        
+        .product-card:hover .main-image {
+            opacity: 0;
+        }
+        
+        .product-card:hover .hover-image {
+            opacity: 1;
+        }
+        
+        .product-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .product-card p {
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+        }
+        
+        .product-card button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        
+        .product-card button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header>
+        <div class="logo">
+            <a href="index.html">50541</a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="catalog.html" class="active">Каталог</a></li>
+                <li><a href="#">О нас</a></li>
+                <li><a href="#">Контакты</a></li>
+            </ul>
+        </nav>
+        <div class="user-actions">
+            <a href="#"><i class="fas fa-search"></i></a>
+            <a href="#"><i class="fas fa-user"></i></a>
+            <a href="#"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+    </header>
+
+    <!-- Основное содержимое каталога -->
+    <section class="catalog">
+        <h2>Каталог одежды</h2>
+        
+        <div class="categories">
+            <button class="category-btn active">Все товары</button>
+            <button class="category-btn">Худи</button>
+            <button class="category-btn">Футболки</button>
+            <button class="category-btn">Штаны</button>
+            <button class="category-btn">Аксессуары</button>
+        </div>
+        
+        <div class="products-grid">
+            <!-- Товар 1 -->
+            <div class="product-card">
+                <img src="images/вывцв.png" alt="Худи" class="main-image">
+                <img src="images/вццвцв.png" alt="Худи другой ракурс" class="hover-image">
+                <h3>Худи "Мод Медведя"</h3>
+                <p>4 999 ₽</p>
+                <button>В корзину</button>
+            </div>
+            
+            <!-- Товар 2 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x300" alt="Футболка" class="main-image">
+                <img src="https://via.placeholder.com/300x300/cccccc" alt="Футболка другой ракурс" class="hover-image">
+                <h3>Футболка "Базовый стиль"</h3>
+                <p>2 499 ₽</p>
+                <button>В корзину</button>
+            </div>
+            
+            <!-- Товар 3 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x300" alt="Штаны" class="main-image">
+                <img src="https://via.placeholder.com/300x300/cccccc" alt="Штаны другой ракурс" class="hover-image">
+                <h3>Штаны "Уличные"</h3>
+                <p>3 799 ₽</p>
+                <button>В корзину</button>
+            </div>
+            
+            <!-- Товар 4 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x300" alt="Кепка" class="main-image">
+                <img src="https://via.placeholder.com/300x300/cccccc" alt="Кепка другой ракурс" class="hover-image">
+                <h3>Кепка "Street"</h3>
+                <p>1 899 ₽</p>
+                <button>В корзину</button>
+            </div>
+            
+            <!-- Товар 5 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x300" alt="Худи" class="main-image">
+                <img src="https://via.placeholder.com/300x300/cccccc" alt="Худи другой ракурс" class="hover-image">
+                <h3>Худи "Минимализм"</h3>
+                <p>4 299 ₽</p>
+                <button>В корзину</button>
+            </div>
+            
+            <!-- Товар 6 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x300" alt="Футболка" class="main-image">
+                <img src="https://via.placeholder.com/300x300/cccccc" alt="Футболка другой ракурс" class="hover-image">
+                <h3>Футболка "Графика"</h3>
+                <p>2 999 ₽</p>
+                <button>В корзину</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>О нас</h3>
+                <p>50541 – это стиль, качество и доступные цены.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <p>Email: info@fashionstore.ru</p>
+                <p>Телефон: +7 (123) 456-78-90</p>
+            </div>
+            <div class="footer-section">
+                <h3>Соцсети</h3>
+                <a href="https://vk.com/shampinionvsmetane"><i class="fab fa-vk"></i></a>
+                <a href="https://t.me/mosnews"><i class="fab fa-telegram"></i></a>
+                <a href="https://www.russianfood.com/recipes/bytype/?fid=29"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 Fashion Store. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Простой скрипт для фильтрации товаров по категориям
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Удаляем класс active у всех кнопок
+                document.querySelectorAll('.category-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                
+                // Добавляем класс active текущей кнопке
+                this.classList.add('active');
+                
+                // Здесь должна быть логика фильтрации товаров
+                // В демо-версии просто показываем все товары
+            });
+        });
+    </script>
+</body>
+</html>

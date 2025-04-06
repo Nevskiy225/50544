@@ -5,10 +5,10 @@
     
     <nav class="main-nav" aria-label="Основное меню">
         <ul>
-            <li><a href="#" aria-current="page">Главная</a></li>
-            <li><a href="catalog.html">Каталог</a></li>
-            <li><a href="about.html">О нас</a></li>
-            <li><a href="contacts.html">Контакты</a></li>
+            <li><a href="/page.php" aria-current="page">Главная</a></li>
+            <li><a href="/catalog.php">Каталог</a></li>
+            <li><a href="/about.php">О нас</a></li>
+            <li><a href="/contacts.php">Контакты</a></li>
         </ul>
     </nav>
     
