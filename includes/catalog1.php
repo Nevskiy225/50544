@@ -11,9 +11,37 @@
                 <!-- Изображение при наведении -->
                     <img src="images/вццвцв.png" alt="Худи другой ракурс" class="hover-image">
                 </div>
-                <h3>Худи "Мод Медведя"</h3>
+                <h3>Худи "Классический"</h3>
                 <p>4 999 ₽</p>
                 <button>В корзину</button>
+            </div>
+            
+            <!-- Первый товар с предзаказом -->
+            <div class="product-card">
+                <div class="image-container">
+                    <!-- Основное изображение -->
+                    <img src="images/вывцв2.png" alt="Худи" class="main-image">
+                <!-- Изображение при наведении -->
+                    <img src="images/вццвцв2.png" alt="Худи другой ракурс" class="hover-image">
+                    <div class="pre-order-label">Предзаказ</div>
+                </div>
+                <h3>Худи "Летний беспредел"</h3>
+                <p>7 999 ₽</p>
+                <button>Заказать</button>
+            </div>
+            
+            <!-- Второй товар с предзаказом -->
+            <div class="product-card">
+                <div class="image-container">
+                    <!-- Основное изображение -->
+                    <img src="images/вывцв3.png" alt="Худи" class="main-image">
+                <!-- Изображение при наведении -->
+                    <img src="images/вццвцв3.png" alt="Худи другой ракурс" class="hover-image">
+                    <div class="pre-order-label">Предзаказ</div>
+                </div>
+                <h3>Худи "Убица монстров"</h3>
+                <p>9 999 ₽</p>
+                <button>Заказать</button>
             </div>
         </div>
     </div>
@@ -124,5 +152,19 @@
         margin-top: 10px;
         cursor: pointer;
         border-radius: 5px;
+    }
+    
+    /* Стиль для метки предзаказа */
+    .pre-order-label {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #ff6b6b;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: bold;
+        z-index: 2;
     }
 </style>
