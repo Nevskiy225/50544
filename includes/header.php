@@ -1,6 +1,8 @@
 <header class="main-header">
     <div class="logo">
-        <a href="index.html" aria-label="На главную">50541</a>
+        <a href="index.html" aria-label="На главную">
+            <img src="/images/logo.png" alt="Логотип компании" width="190" height="120">
+        </a>
     </div>
     
     <nav class="main-nav" aria-label="Основное меню">

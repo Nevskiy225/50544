@@ -9,7 +9,10 @@ $footer_path = __DIR__ . "/includes/footer.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Контакты | 50541</title>
-    <?php require_once $head_path; ?>
+    <?php
+    require_once $header_path;
+    require_once $head_path;
+    ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         /* Основные стили страницы */
@@ -98,7 +101,6 @@ $footer_path = __DIR__ . "/includes/footer.php";
 </head>
 <body>
     <div class="page-container">
-        <?php require_once $header_path; ?>
 
         <section class="contacts-section">
             <h1>Наши контакты</h1>
@@ -157,7 +159,7 @@ $footer_path = __DIR__ . "/includes/footer.php";
 
         </section>
 
-        <?php require_once $footer_path; ?>
     </div>
+    <?php require_once $footer_path; ?>
 </body>
 </html>

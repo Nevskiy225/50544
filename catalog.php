@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <?php
-$catalog1_path = __DIR__ . "/includes/catalog1.php";
+$hoodie4_path = __DIR__ . "/includes/hoodie/hoodie4.php";
+$hoodie2_path = __DIR__ . "/includes/hoodie/hoodie2.php";
+$hoodie3_path = __DIR__ . "/includes/hoodie/hoodie3.php";
 $head_path = __DIR__ . "/includes/head.php";
 $header_path = __DIR__ . "/includes/header.php";
 $banner_path = __DIR__ . "/includes/banner.php";
@@ -14,70 +16,63 @@ $footer_path = __DIR__ . "/includes/footer.php";
     require_once $head_path;
     ?>
 <style>
-        /* Дополнительные стили для каталога */
-        .catalog {
-            padding: 50px;
+        body {
+            background-color: #eee7dd !important;
+            margin: 0;
+            font-family: Arial, sans-serif;
         }
         
-        .catalog h2 {
-            font-size: 32px;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .categories {
+        .center-container {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .category-btn {
-            padding: 10px 20px;
-            background-color: #f0f0f0;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .category-btn:hover, .category-btn.active {
-            background-color: #ff6b6b;
-            color: white;
+            align-items: center;
+            min-height: 0;
+            padding: 20px 0;
+            margin: 20px 0;
         }
         
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
         
         .product-card {
             background: white;
             border-radius: 10px;
-            padding: 20px;
+            padding: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+            max-width: 300px;
+            margin: 0 auto;
             position: relative;
             overflow: hidden;
         }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
         }
-        
+
         .product-card img {
             width: 100%;
+            height: 100%;
+            object-fit: cover;
             border-radius: 5px;
-            margin-bottom: 15px;
             transition: opacity 0.3s ease;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         
         .product-card .hover-image {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 0;
+            left: 0;
             opacity: 0;
         }
         
@@ -91,17 +86,17 @@ $footer_path = __DIR__ . "/includes/footer.php";
         
         .product-card h3 {
             font-size: 18px;
-            margin-bottom: 10px;
+            margin: 15px 0 10px;
         }
         
         .product-card p {
             font-weight: bold;
-            color: #ff6b6b;
+            color: #333;
             margin-bottom: 15px;
         }
         
         .product-card button {
-            background-color: #333;
+            background-color: #000;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -114,13 +109,36 @@ $footer_path = __DIR__ . "/includes/footer.php";
         .product-card button:hover {
             background-color: #555;
         }
+        
+        .pre-order-label {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff6b6b;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 2;
+        }
     </style>
 </head>
-    <body>
+<body>
     <?php
     require_once $header_path;
-    require_once $catalog1_path;
-    require_once $footer_path
+    ?>
+    
+    <div class="center-container">
+        <div class="products-grid">
+            <?php require_once $hoodie4_path; ?>
+            <?php require_once $hoodie2_path; ?>
+            <?php require_once $hoodie3_path; ?>
+        </div>
+    </div>
+    
+    <?php
+    require_once $footer_path;
     ?>
 </body>
 </html>
