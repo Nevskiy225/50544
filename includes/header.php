@@ -14,16 +14,15 @@
         </ul>
     </nav>
     
-    <div class="user-actions">
-        <button class="search-btn" aria-label="Поиск">
-            <i class="fas fa-search"></i>
-        </button>
-        <a href="account.html" class="user-btn" aria-label="Личный кабинет">
-            <i class="fas fa-user"></i>
-        </a>
-        <a href="cart.html" class="cart-btn" aria-label="Корзина">
+        <div class="user-actions">
+        <a href="cart.php" class="cart-btn" aria-label="Корзина">
             <i class="fas fa-shopping-cart"></i>
-            <span class="cart-counter">0</span>
+            <span class="cart-counter">
+                <?php 
+                // Отображаем количество товаров в корзине
+                echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+                ?>
+            </span>
         </a>
     </div>
 </header>
