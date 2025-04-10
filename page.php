@@ -1,9 +1,25 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Каталог одежды | 50541</title>
+    <?php
+    require_once __DIR__ . "/connection.php";
+    $header_path = __DIR__ . "/includes/header.php";
+    $banner_path = __DIR__ . "/includes/banner.php";
+    $footer_path = __DIR__ . "/includes/footer.php";
+    $head_path = __DIR__ . "/includes/head.php";
+    $hudi_path = __DIR__ . "/includes/hudi.php";
+    // Получаем худи с ID=1 из базы данных
+    $product_id = 1;
+    $query = "SELECT * FROM products WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $hoodie = $result->fetch_assoc();
+    
+    require_once $head_path;
+    ?>
     <style>
         body {
             background-color: #eee7dd !important;
@@ -115,25 +131,34 @@
             background-color: #555;
         }
     </style>
-    <?php
-    $head_path = __DIR__ . "/includes/head.php";
-    require_once $head_path;
-    ?>
 </head>
 <body>
     <?php
-    $header_path = __DIR__ . "/includes/header.php";
-    $banner_path = __DIR__ . "/includes/banner.php";
-    $catalog1_path = __DIR__ . "/includes/catalog1.php";
-    $hoodies_dir = __DIR__ . "/includes/hoodie/hoodie1.php";
-    $footer_path = __DIR__ . "/includes/footer.php";
-    
     require_once $header_path;
     require_once $banner_path;
     ?>
     
-    <div class="center-container">
-        <?php require_once $hoodies_dir; ?>
+<div class="center-container">
+        <?php if ($hoodie): ?>
+            <div class="product-card">
+                <div class="image-container">
+                    <img src="<?= htmlspecialchars($hoodie['main_image']) ?>" 
+                         alt="<?= htmlspecialchars($hoodie['name']) ?>" 
+                         class="main-image">
+                    <img src="<?= htmlspecialchars($hoodie['hover_image']) ?>" 
+                         alt="<?= htmlspecialchars($hoodie['name']) ?> другой ракурс" 
+                         class="hover-image">
+                    <?php if ($hoodie['is_preorder']): ?>
+                        <div class="pre-order-label">Предзаказ</div>
+                    <?php endif; ?>
+                </div>
+                <h3><?= htmlspecialchars($hoodie['name']) ?></h3>
+                <p><?= number_format($hoodie['price'], 0, '', ' ') ?> ₽</p>
+                <a href="order.php?id=<?= $hoodie['id'] ?>" class="button">Заказать</a>
+            </div>
+        <?php else: ?>
+            <p>Худи не найдено в базе данных</p>
+        <?php endif; ?>
     </div>
     
     <?php

@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="ru">
 <?php
-$hoodie4_path = __DIR__ . "/includes/hoodie/hoodie4.php";
-$hoodie2_path = __DIR__ . "/includes/hoodie/hoodie2.php";
-$hoodie3_path = __DIR__ . "/includes/hoodie/hoodie3.php";
+require_once __DIR__ . "/connection.php"; // Подключение к БД
 $head_path = __DIR__ . "/includes/head.php";
 $header_path = __DIR__ . "/includes/header.php";
-$banner_path = __DIR__ . "/includes/banner.php";
-$popular_path = __DIR__ . "/includes/popular.php";
 $footer_path = __DIR__ . "/includes/footer.php";
+
+// Получаем товары из базы данных
+$products = [];
+$query = "SELECT * FROM products WHERE is_active = 1";
+$result = $conn->query($query);
+if ($result) {
+    $products = $result->fetch_all(MYSQLI_ASSOC);
+}
 ?>
 <head>
-<title>Каталог одежды | 50541</title>
-<?php
-    require_once $head_path;
-    ?>
-<style>
-        body {
+    <title>Каталог одежды | 50541</title>
+    <?php require_once $head_path; ?>
+    <style>
+     body {
             background-color: #eee7dd !important;
             margin: 0;
             font-family: Arial, sans-serif;
@@ -125,20 +127,31 @@ $footer_path = __DIR__ . "/includes/footer.php";
     </style>
 </head>
 <body>
-    <?php
-    require_once $header_path;
-    ?>
+    <?php require_once $header_path; ?>
     
     <div class="center-container">
         <div class="products-grid">
-            <?php require_once $hoodie4_path; ?>
-            <?php require_once $hoodie2_path; ?>
-            <?php require_once $hoodie3_path; ?>
+            <?php foreach ($products as $product): ?>
+                <div class="product-card">
+                    <div class="image-container">
+                        <img src="<?= htmlspecialchars($product['main_image']) ?>" 
+                             alt="<?= htmlspecialchars($product['name']) ?>" 
+                             class="main-image">
+                        <img src="<?= htmlspecialchars($product['hover_image']) ?>" 
+                             alt="<?= htmlspecialchars($product['name']) ?> другой ракурс" 
+                             class="hover-image">
+                        <?php if ($product['is_preorder']): ?>
+                            <div class="pre-order-label">Предзаказ</div>
+                        <?php endif; ?>
+                    </div>
+                    <h3><?= htmlspecialchars($product['name']) ?></h3>
+                    <p><?= number_format($product['price'], 0, '', ' ') ?> ₽</p>
+                    <button>Заказать</button>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
     
-    <?php
-    require_once $footer_path;
-    ?>
+    <?php require_once $footer_path; ?>
 </body>
 </html>
