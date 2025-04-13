@@ -1,13 +1,13 @@
 <header class="main-header">
     <div class="logo">
-        <a href="index.html" aria-label="На главную">
+        <a href="index.php" aria-label="На главную">
             <img src="/images/logo.png" alt="Логотип компании" width="190" height="120">
         </a>
     </div>
     
     <nav class="main-nav" aria-label="Основное меню">
         <ul>
-            <li><a href="/page.php" aria-current="page">Главная</a></li>
+            <li><a href="/index.php" aria-current="page">Главная</a></li>
             <li><a href="/catalog.php">Каталог</a></li>
             <li><a href="/about.php">О нас</a></li>
             <li><a href="/contacts.php">Контакты</a></li>
