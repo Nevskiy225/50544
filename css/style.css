@@ -3,19 +3,34 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #eee7dd !important;
+    background-color: #ded2c2; /* Темно-бежевый фон всего сайта */
     color: #333;
 }
 
+/* Шапка */
 header {
-    background-color: #eee7dd;
+    background-color: #eee7dd; /* Светло-бежевый фон шапки */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 15px 50px; /* Объединяем вертикальные и горизонтальные отступы */
+    padding: 15px 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    z-index: 100;
 }
 
+/* Основное содержание */
+main {
+    background-color: transparent;
+}
+
+.featured-products, 
+.catalog {
+    background-color: transparent;
+    padding: 20px 0;
+}
+
+/* Логотип и навигация */
 .logo a {
     font-size: 24px;
     font-weight: bold;
@@ -27,7 +42,10 @@ nav ul {
     display: flex;
     list-style: none;
     gap: 20px;
+    margin: 0;
+    padding: 0;
 }
+
 
 nav ul li a {
     text-decoration: none;
@@ -49,262 +67,404 @@ nav ul li a:hover {
     color: #000;
 }
 
-/* Баннер */
+/* Баннер - уменьшенная версия */
 .banner {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://via.placeholder.com/1920x600');
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://via.placeholder.com/1920x800');
     background-size: cover;
+    background-position: center;
     color: white;
     text-align: center;
-    padding: 100px 20px;
-}
-.button { /* Style the <a> tag with the .button class */
-    background-color: #000000;
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin-top: 10px;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-
-.button:hover {
-    background-color: #515050;
+    padding: 80px 20px; /* Уменьшил с 150px до 80px */
+    margin-bottom: 30px; /* Уменьшил с 50px до 30px */
 }
 
 .banner h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
+    font-size: 42px; /* Уменьшил с 56px до 42px */
+    margin-bottom: 15px; /* Уменьшил с 25px до 15px */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .banner p {
-    font-size: 20px;
-    margin-bottom: 30px;
+    font-size: 20px; /* Уменьшил с 24px до 20px */
+    margin-bottom: 30px; /* Уменьшил с 40px до 30px */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.featured-products, .catalog {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        padding: 20px 0;
-        background-color: #f5f5f5;
-    }
+.button,
+.btn,
+.catalog-btn,
+.add-to-cart,
+.product-card button,
+.product-card .add-to-cart {
+    display: inline-block;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    background-color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-    .featured-products-container, .catalog-container {
-        max-width: 1200px;
-        width: 100%;
-        padding: 0 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+/* Стили для кнопок при наведении */
+.button:hover,
+.btn:hover,
+.catalog-btn:hover,
+.add-to-cart:hover,
+.product-card button:hover,
+.product-card .add-to-cart:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
 
-    .featured-products h2, .catalog h2 {
-        text-align: center;
-        margin-bottom: 30px;
-        font-size: 32px;
-        color: #333;
-    }
+/* Особые стили для кнопки каталога в баннере */
+.catalog-btn {
+    background-color: #ff6b6b;
+    padding: 18px 45px;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
 
-    .products-grid {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 30px;
-        width: 100%;
-    }
+.catalog-btn:hover {
+    background-color: #ff5252;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+}
 
-    .product-card {
-        background: white;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        width: 280px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-    }
+/* Стили для кнопок "Добавить в корзину" в карточках товаров */
+.product-card .add-to-cart,
+.product-card button {
+    margin-top: 15px;
+    width: auto;
+    align-self: center;
+}
 
-    /* Обёртка для изображений */
-    .product-card .image-container {
-        position: relative;
-        width: 100%; /* Задаем фиксированную ширину */
-        height: 300px; /* Задаем фиксированную высоту */
-        overflow: hidden;
-    }
-
-    .product-card .image-container img {
-        width: 100%;
-        height: 100%; /* Растягиваем изображения до размеров контейнера */
-        object-fit: cover;  /* Обрезаем изображения, чтобы соответствовать размерам */
-        transition: opacity 0.3s ease;
-    }
-
-    .product-card .main-image {
-        position: relative;
-        z-index: 1;
-    }
-
-    .product-card .hover-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 0;
-        opacity: 0;
-    }
-
-    .product-card:hover .main-image {
-        opacity: 0;
-    }
-
-    .product-card:hover .hover-image {
-        opacity: 1;
-    }
-
-    .product-card h3 {
-        margin: 15px 0;
-        width: 100%;
-    }
-
-    .product-card p {
-        font-size: 1.2em;
-        font-weight: bold;
-        color: #333;
-    }
-
-    /* Цвет кнопки "В корзину" из примера popular */
-    .product-card button {
-        background-color: #000000;
-        border: none;
-        color: white;
+/* Адаптивные стили для мобильных устройств */
+@media (max-width: 767px) {
+    .button,
+    .btn,
+    .catalog-btn,
+    .add-to-cart,
+    .product-card button,
+    .product-card .add-to-cart {
         padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin-top: 10px;
-        cursor: pointer;
-        border-radius: 5px;
+        font-size: 14px;
     }
     
-    /* Стиль для метки предзаказа */
-    .pre-order-label {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background-color: #ff6b6b;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 15px;
-        font-size: 12px;
-        font-weight: bold;
-        z-index: 2;
+    .catalog-btn {
+        padding: 15px 30px;
+        font-size: 16px;
     }
-.btn {
+}
+
+/* Кнопка "В Каталог" - увеличенная и стилизованная */
+.catalog-btn {
+    display: inline-block;
+    padding: 18px 45px;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
     background-color: #ff6b6b;
     color: white;
-    padding: 12px 30px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background 0.3s;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.btn:hover {
+.catalog-btn:hover {
     background-color: #ff5252;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
 }
 
-/* Популярные товары */
-.featured-products {
-    padding: 50px;
+/* Секции товаров */
+.featured-products, .catalog {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 50px 0;
+}
+
+.featured-products-container, .catalog-container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.featured-products h2, .catalog h2 {
     text-align: center;
+    margin-bottom: 40px;
+    font-size: 36px;
+    color: #333;
+    position: relative;
 }
 
-.featured-products h2 {
-    font-size: 32px;
-    margin-bottom: 40px;
+.featured-products h2:after, .catalog h2:after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: #ff6b6b;
+    margin: 15px auto 0;
 }
 
 .products-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 30px;
+    width: 100%;
 }
 
+/* Карточки товаров */
+/* Обновленные стили для карточек товаров */
 .product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрируем содержимое по горизонтали */
     background: white;
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 280px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.product-card:hover {
-    transform: translateY(-5px);
-}
 
-.product-card img {
-    width: 100%;
-    border-radius: 5px;
-    margin-bottom: 15px;
-}
-
-.product-card h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-.product-card p {
-    font-weight: bold;
-    color: #ff6b6b;
-    margin-bottom: 15px;
-}
-
-.product-card button {
-    background-color: #333;
+/* Для кнопки предзаказа в catalog.php */
+.add-to-cart {
+    background-color: #000;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 30px; /* Увеличиваем горизонтальные отступы */
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s;
+    width: auto; /* Убираем 100% ширину */
+    margin-top: 10px;
+    display: inline-block; /* Для правильного центрирования */
+    text-align: center;
+    text-decoration: none;
 }
 
-.product-card button:hover {
-    background-color: #555;
+/* Для мобильных устройств */
+@media (max-width: 767px) {
+    .product-card .add-to-cart,
+    .add-to-cart {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.product-card .image-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.product-card .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.product-card .main-image {
+    position: relative;
+    z-index: 1;
+}
+
+.product-card .hover-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    opacity: 0;
+}
+
+.product-card:hover .main-image {
+    opacity: 0;
+}
+
+.product-card:hover .hover-image {
+    opacity: 1;
+}
+
+.product-card h3 {
+    margin: 15px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.product-card .price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff6b6b;
+    margin: 15px 0;
+}
+
+.product-card .add-to-cart {
+    background-color: #333;
+    border: none;
+    color: white;
+    padding: 12px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+    width: auto; /* Убираем 100% ширину */
+    align-self: center; /* Центрируем кнопку */
+}
+
+.product-card .add-to-cart:hover {
+    background-color: #ff6b6b;
+}
+
+/* Метка предзаказа */
+.pre-order-label {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #ff6b6b;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 2;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Подвал */
 footer {
     background-color: #333;
     color: white;
-    padding: 50px 0 20px;
+    padding: 60px 0 30px;
+    margin-top: 50px;
 }
 
 .footer-content {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    padding: 0 50px;
-    margin-bottom: 30px;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .footer-section h3 {
     font-size: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    position: relative;
+    padding-bottom: 10px;
 }
 
+.footer-section h3:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background: #ff6b6b;
+}
+
+.footer-section p, 
 .footer-section a {
     color: #ddd;
-    margin-right: 15px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.footer-section a:hover {
+    color: #ff6b6b;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
     font-size: 20px;
+    color: #ddd;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: #ff6b6b;
 }
 
 .copyright {
     text-align: center;
-    padding-top: 20px;
+    padding-top: 30px;
+    margin-top: 30px;
     border-top: 1px solid #555;
+    color: #aaa;
+    font-size: 14px;
+}
+@media (max-width: 767px) {
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+    }
+    
+    body {
+        touch-action: pan-y; /* Разрешаем только вертикальные свайпы */
+   }
+     header {
+        padding: 15px 20px;
+    }
+
+    .products-grid {
+        justify-content: center;
+    }
+
+    .product-card {
+        width: calc(100% - 40px);
+        max-width: 280px;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+/* Убедитесь, что все элементы не выходят за пределы экрана */
+* {
+    box-sizing: border-box;
 }

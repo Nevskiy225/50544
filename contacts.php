@@ -1,3 +1,7 @@
+<?php
+session_start(); // Обязательно в первой строке файла
+// Дальше ваш обычный код...
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <?php
@@ -17,15 +21,28 @@ $footer_path = __DIR__ . "/includes/footer.php";
     <style>
         /* Основные стили страницы */
         body {
-            background-color: #f5f5f5;
+            background-color: #ded2c2 !important; /* Основной фон сайта */
             margin: 0;
             font-family: Arial, sans-serif;
+        }
+
+        /* Шапка с другим цветом */
+        header {
+            background-color: #eee7dd !important; /* Цвет шапки */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 100;
         }
 
         .page-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            background-color: transparent;
         }
 
         /* Стили для контактной секции */
@@ -107,13 +124,13 @@ $footer_path = __DIR__ . "/includes/footer.php";
 
             <div class="contact-info">
                 <div class="contact-card">
-                    <h2><i class="contact-icon">📍</i> Адрес</h2>
+                    <h2><i class="contact-icon"></i> Адрес</h2>
                     <p>г. Нижний Новгород, ул. Пашкова, д. 78</p>
                     <p>ТЦ "Барбос и Бобик", 5 этаж</p>
                 </div>
 
                 <div class="contact-card">
-                    <h2><i class="contact-icon">📞</i> Телефоны</h2>
+                    <h2><i class="contact-icon"></i> Телефоны</h2>
                     <p>+7 (787) 878-56-78</p>
                     <p>+7 (000) 000-00-00</p>
                 </div>
@@ -138,7 +155,7 @@ $footer_path = __DIR__ . "/includes/footer.php";
 
                 <div class="contact-card">
                     <h2><i class="contact-icon fab fa-telegram"></i> Telegram</h2>
-                    <p><a href="https://t.me/minecraftapp" target="_blank">Наш канал в Telegram</a></p>
+                    <p><a href="https://t.me/shop50541" target="_blank">Наш канал в Telegram</a></p>
                 </div>
 
                 <div class="contact-card">
