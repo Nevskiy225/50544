@@ -46,7 +46,6 @@ nav ul {
     padding: 0;
 }
 
-
 nav ul li a {
     text-decoration: none;
     color: #555;
@@ -366,65 +365,102 @@ nav ul li a:hover {
 }
 
 /* Подвал */
+/* Стили для футера */
 footer {
     background-color: #333;
     color: white;
-    padding: 60px 0 30px;
+    padding: 40px 0 20px;
     margin-top: 50px;
 }
 
 .footer-content {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
-.footer-section h3 {
-    font-size: 20px;
-    margin-bottom: 25px;
-    position: relative;
-    padding-bottom: 10px;
+.footer-links-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #555;
 }
 
-.footer-section h3:after {
+.footer-link-left a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+    display: inline-flex;
+    align-items: center;
+}
+
+.footer-link-left a:hover {
+    color: #ff6b6b;
+}
+
+.footer-link-left i {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.footer-info-section {
+    text-align: right;
+}
+
+.footer-info-section h3 {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+.footer-info-section h3:after {
     content: '';
     position: absolute;
     left: 0;
-    bottom: 0;
-    width: 50px;
+    bottom: -5px;
+    width: 100%;
     height: 2px;
     background: #ff6b6b;
 }
 
-.footer-section p, 
-.footer-section a {
+.footer-info-section a {
     color: #ddd;
-    line-height: 1.6;
-    margin-bottom: 10px;
-    display: block;
-}
-
-.footer-section a:hover {
-    color: #ff6b6b;
-}
-
-.social-links {
-    display: flex;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.social-links a {
-    font-size: 20px;
-    color: #ddd;
+    text-decoration: none;
+    font-size: 14px;
     transition: color 0.3s;
+    display: block;
+    margin-top: 8px;
 }
 
-.social-links a:hover {
+.footer-info-section a:hover {
     color: #ff6b6b;
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    color: #aaa;
+    font-size: 14px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .footer-links-container {
+        flex-direction: column;
+        gap: 25px;
+    }
+    
+    .footer-info-section {
+        text-align: left;
+        width: 100%;
+    }
+    
+    .footer-link-left {
+        width: 100%;
 }
 
 .copyright {

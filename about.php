@@ -76,9 +76,12 @@ if ($result = $conn->query($query)) {
         }
         
         .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            display: flex;
+            flex-wrap: wrap;
             gap: 30px;
+            justify-content: center; /* Центрируем карточки по горизонтали */
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
         .team-member {
@@ -87,7 +90,9 @@ if ($result = $conn->query($query)) {
             padding: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
-            border: 2px solid white; /* Белая рамка вокруг всей карточки */
+            border: 2px solid white;
+            width: 250px; /* Фиксированная ширина карточки */
+            flex-shrink: 0; /* Запрещаем уменьшение ширины */
         }
         
         .team-member img {
@@ -97,7 +102,7 @@ if ($result = $conn->query($query)) {
             object-fit: cover;
             margin-bottom: 15px;
             border: 3px solid #ff6b6b;
-            box-shadow: 0 0 0 5px white; /* Белая рамка вокруг фото */
+            box-shadow: 0 0 0 5px white;
         }
         
         .team-member h3 {
@@ -106,7 +111,7 @@ if ($result = $conn->query($query)) {
             padding: 10px;
             background: white;
             border-radius: 5px;
-            border: 2px solid white; /* Белая рамка вокруг имени */
+            border: 2px solid white;
         }
         
         .team-member p {
@@ -115,8 +120,19 @@ if ($result = $conn->query($query)) {
             padding: 10px;
             background: white;
             border-radius: 5px;
-            border: 2px solid white; /* Белая рамка вокруг должности */
+            border: 2px solid white;
             margin: 0;
+        }
+        
+        /* Стили для центрирования заголовка и секции */
+        .team-section {
+            text-align: center;
+            width: 100%;
+        }
+        
+        .team-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
         }
     </style>
 </head>
@@ -146,7 +162,7 @@ if ($result = $conn->query($query)) {
         </div>
         
         <div class="team-section">
-            <h2>Наша команда</h2>
+            <h2>Наши сотрудники</h2>
             <div class="team-grid">
                 <?php foreach ($employees as $employee): ?>
                     <div class="team-member">

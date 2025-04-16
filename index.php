@@ -4,8 +4,6 @@ session_start();
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Фотогалерея | 50541</title>
     <?php
     require_once __DIR__ . "/connection.php";
@@ -25,7 +23,6 @@ session_start();
     require_once $head_path;
     ?>
     <style>
-        /* Только специфичные стили для галереи, которых нет в style.css */
         .gallery-section {
             padding: 40px 5%;
             margin: 0 auto;
@@ -93,7 +90,6 @@ session_start();
             transform: scale(1.05);
         }
         
-        /* Навигация галереи */
         .nav-arrow {
             position: absolute;
             top: 50%;
@@ -129,7 +125,6 @@ session_start();
             transform: translate(50%, -50%);
         }
         
-        /* Точки навигации */
         .gallery-dots {
             display: flex;
             justify-content: center;
@@ -197,19 +192,17 @@ session_start();
             const nextBtn = document.querySelector('.next-arrow');
             const dots = document.querySelectorAll('.dot');
             const items = document.querySelectorAll('.gallery-item');
-            const itemCount = items.length / 2; // Учитываем дублированные элементы
+            const itemCount = items.length / 2;
             let currentIndex = 0;
             let autoSlideInterval;
             let isAnimating = false;
             
-            // Определяем количество видимых элементов
             function getVisibleItems() {
                 const style = window.getComputedStyle(items[0]);
                 return style.flexBasis === '100%' ? 1 : 
                        style.flexBasis === '50%' ? 2 : 4;
             }
             
-            // Функция для перемещения трека
             function moveToIndex(index) {
                 if (isAnimating) return;
                 
@@ -221,19 +214,16 @@ session_start();
                 track.style.transition = 'transform 0.5s ease';
                 track.style.transform = `translateX(${offset}%)`;
                 
-                // Обновляем активную точку
                 updateDots(currentIndex % (itemCount / visibleItems));
                 
                 setTimeout(() => {
                     isAnimating = false;
                     
-                    // Если достигли конца дублированных элементов, незаметно переходим к началу
                     if (currentIndex >= itemCount) {
                         track.style.transition = 'none';
                         currentIndex = 0;
                         track.style.transform = `translateX(0%)`;
                     }
-                    // Если достигли начала дублированных элементов, незаметно переходим к концу
                     else if (currentIndex < 0) {
                         track.style.transition = 'none';
                         currentIndex = itemCount - visibleItems;
@@ -242,41 +232,34 @@ session_start();
                 }, 500);
             }
             
-            // Обновление активной точки
             function updateDots(index) {
                 dots.forEach((dot, dotIndex) => {
                     dot.classList.toggle('active', dotIndex === index);
                 });
             }
             
-            // Переключение на предыдущий слайд
             function prevSlide() {
                 moveToIndex(currentIndex - 1);
                 resetAutoSlide();
             }
             
-            // Переключение на следующий слайд
             function nextSlide() {
                 moveToIndex(currentIndex + 1);
                 resetAutoSlide();
             }
             
-            // Автоматическое перелистывание
             function startAutoSlide() {
                 autoSlideInterval = setInterval(nextSlide, 3000);
             }
             
-            // Сброс автоматического перелистывания при ручном управлении
             function resetAutoSlide() {
                 clearInterval(autoSlideInterval);
                 startAutoSlide();
             }
             
-            // Обработчики событий
             prevBtn.addEventListener('click', prevSlide);
             nextBtn.addEventListener('click', nextSlide);
             
-            // Переключение по точкам
             dots.forEach(dot => {
                 dot.addEventListener('click', function() {
                     const index = parseInt(this.getAttribute('data-index'));
@@ -286,21 +269,17 @@ session_start();
                 });
             });
             
-            // Адаптация при изменении размера окна
             window.addEventListener('resize', function() {
                 const visibleItems = getVisibleItems();
                 track.style.transform = `translateX(${-currentIndex * 100 / visibleItems}%)`;
             });
             
-            // Запуск автоматического перелистывания
             startAutoSlide();
             
-            // Остановка при наведении
             track.addEventListener('mouseenter', () => {
                 clearInterval(autoSlideInterval);
             });
             
-            // Возобновление при уходе курсора
             track.addEventListener('mouseleave', startAutoSlide);
         });
     </script>

@@ -49,43 +49,85 @@ if ($result) {
     <title>Каталог одежды | 50541</title>
     <?php require_once __DIR__ . "/includes/head.php"; ?>
     <style>
-        /* Специфичные стили только для catalog.php */
-        .center-container {
-            padding: 20px 0;
-            margin: 20px 0;
-        }
-        
-        .products-grid {
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            padding: 0 20px;
-        }
-        
-        .product-card {
-            padding: 15px;
-            max-width: 300px;
-        }
+    /* Специфичные стили только для catalog.php */
+    .center-container {
+        padding: 20px 0;
+        margin: 20px 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 280px)); /* Фиксированная ширина колонок */
+        gap: 30px;
+        padding: 0 20px;
+        width: 100%;
+        max-width: 1200px;
+        justify-content: center; /* Центрируем колонки сетки */
+    }
+    
+    .product-card {
+        padding: 15px;
+        width: 280px; /* Фиксированная ширина карточки */
+        cursor: pointer;
+        transition: transform 0.3s;
+    }
 
-        .image-container {
-            height: 350px;
+    .product-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .image-container {
+        height: 350px;
+        width: 100%;
+    }
+    
+    .product-card h3 {
+        font-size: 16px;
+        font-weight: 500;
+        margin: 10px 0 5px;
+        color: #333;
+        text-decoration: none;
+        text-align: center; /* Центрируем текст */
+    }
+    
+    .product-card p {
+        margin-bottom: 15px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #ff6b6b;
+        text-decoration: none;
+        text-align: center; /* Центрируем текст */
+    }
+    
+    .pre-order-label {
+        top: 10px;
+        right: 10px;
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+
+    .product-card-link {
+        text-decoration: none;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Медиазапрос для мобильных устройств */
+    @media (max-width: 600px) {
+        .products-grid {
+            grid-template-columns: 280px; /* Одна колонка на мобильных */
+            gap: 20px;
+            padding: 0 10px;
         }
         
-        .product-card h3 {
-            font-size: 18px;
-            margin: 15px 0 10px;
+        .center-container {
+            padding: 10px 0;
         }
-        
-        .product-card p {
-            margin-bottom: 15px;
-        }
-        
-        .pre-order-label {
-            top: 10px;
-            right: 10px;
-            padding: 5px 10px;
-            font-size: 12px;
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
     <?php require_once __DIR__ . "/includes/header.php"; ?>
@@ -93,24 +135,25 @@ if ($result) {
     <div class="center-container">
         <div class="products-grid">
             <?php foreach ($products as $product): ?>
-                <div class="product-card">
-                    <div class="image-container">
-                        <img src="<?= htmlspecialchars($product['main_image']) ?>" 
-                             alt="<?= htmlspecialchars($product['name']) ?>" 
-                             class="main-image">
-                        <?php if (!empty($product['hover_image'])): ?>
-                            <img src="<?= htmlspecialchars($product['hover_image']) ?>" 
-                                 alt="<?= htmlspecialchars($product['name']) ?> другой ракурс" 
-                                 class="hover-image">
-                        <?php endif; ?>
-                        <?php if ($product['is_preorder']): ?>
-                            <div class="pre-order-label">Предзаказ</div>
-                        <?php endif; ?>
+                <a href="product.php?id=<?= $product['id'] ?>" class="product-card-link">
+                    <div class="product-card">
+                        <div class="image-container">
+                            <img src="<?= htmlspecialchars($product['main_image']) ?>" 
+                                 alt="<?= htmlspecialchars($product['name']) ?>" 
+                                 class="main-image">
+                            <?php if (!empty($product['hover_image'])): ?>
+                                <img src="<?= htmlspecialchars($product['hover_image']) ?>" 
+                                     alt="<?= htmlspecialchars($product['name']) ?> другой ракурс" 
+                                     class="hover-image">
+                            <?php endif; ?>
+                            <?php if ($product['is_preorder']): ?>
+                                <div class="pre-order-label">Предзаказ</div>
+                            <?php endif; ?>
+                        </div>
+                        <h3><?= htmlspecialchars($product['name']) ?></h3>
+                        <p><?= number_format($product['price'], 0, '', ' ') ?> ₽</p>
                     </div>
-                    <h3><?= htmlspecialchars($product['name']) ?></h3>
-                    <p><?= number_format($product['price'], 0, '', ' ') ?> ₽</p>
-                    <a href="?add_to_cart=<?= $product['id'] ?>" class="add-to-cart">Оформить предзаказ</a>
-                </div>
+                </a>
             <?php endforeach; ?>
         </div>
     </div>

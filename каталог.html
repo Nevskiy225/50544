@@ -1,76 +1,125 @@
+<?php
+session_start(); // Добавляем начало сессии
+require_once __DIR__ . "/connection.php";
+
+// Обработка добавления в корзину
+if (isset($_GET['add_to_cart'])) {
+    $product_id = (int)$_GET['add_to_cart'];
+    
+    $stmt = $conn->prepare("SELECT id, name, price, main_image FROM products WHERE id = ? AND is_active = 1");
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $product = $result->fetch_assoc();
+        
+        if (!isset($_SESSION['cart'])) {
+            $_SESSION['cart'] = [];
+        }
+        
+        if (isset($_SESSION['cart'][$product_id])) {
+            $_SESSION['cart'][$product_id]['quantity'] += 1;
+        } else {
+            $_SESSION['cart'][$product_id] = [
+                'id' => $product_id,
+                'name' => $product['name'],
+                'price' => $product['price'],
+                'image' => $product['main_image'],
+                'quantity' => 1
+            ];
+        }
+        
+        header("Location: cart.php");
+        exit();
+    }
+}
+
+// Получаем товары
+$products = [];
+$query = "SELECT * FROM products WHERE is_active = 1 AND id != 4";
+$result = $conn->query($query);
+if ($result) {
+    $products = $result->fetch_all(MYSQLI_ASSOC);
+}
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Каталог одежды | 50541</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <?php require_once __DIR__ . "/includes/head.php"; ?>
     <style>
-        /* Дополнительные стили для каталога */
-        .catalog {
-            padding: 50px;
+           /* Основные стили */
+        body {
+            background-color: #ded2c2 !important; /* Основной фон сайта */
+            margin: 0;
+            font-family: Arial, sans-serif;
         }
         
-        .catalog h2 {
-            font-size: 32px;
-            text-align: center;
-            margin-bottom: 40px;
+         /* Шапка */
+        header {
+            background-color: #eee7dd !important;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 100;
         }
         
-        .categories {
+        .center-container {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .category-btn {
-            padding: 10px 20px;
-            background-color: #f0f0f0;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .category-btn:hover, .category-btn.active {
-            background-color: #ff6b6b;
-            color: white;
+            align-items: center;
+            min-height: 0;
+            padding: 20px 0;
+            margin: 20px 0;
+            background-color: transparent;
         }
         
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
         
         .product-card {
             background: white;
             border-radius: 10px;
-            padding: 20px;
+            padding: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+            max-width: 300px;
+            margin: 0 auto;
             position: relative;
             overflow: hidden;
         }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
         }
-        
+
         .product-card img {
             width: 100%;
+            height: 100%;
+            object-fit: cover;
             border-radius: 5px;
-            margin-bottom: 15px;
             transition: opacity 0.3s ease;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         
         .product-card .hover-image {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 0;
+            left: 0;
             opacity: 0;
         }
         
@@ -84,17 +133,17 @@
         
         .product-card h3 {
             font-size: 18px;
-            margin-bottom: 10px;
+            margin: 15px 0 10px;
         }
         
         .product-card p {
             font-weight: bold;
-            color: #ff6b6b;
+            color: #333;
             margin-bottom: 15px;
         }
         
         .product-card button {
-            background-color: #333;
+            background-color: #000;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -107,138 +156,173 @@
         .product-card button:hover {
             background-color: #555;
         }
+        
+        .pre-order-label {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff6b6b;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 2;
+        }
+        
+        .add-to-cart {
+           background-color: #000;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+    text-decoration: none; /* Добавлено это свойство */
+   
+        }
+        .add-to-cart:hover {
+            background-color: #555;
+        }
     </style>
 </head>
 <body>
-    <!-- Шапка сайта -->
-    <header>
-        <div class="logo">
-            <a href="index.html">50541</a>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Главная</a></li>
-                <li><a href="catalog.html" class="active">Каталог</a></li>
-                <li><a href="#">О нас</a></li>
-                <li><a href="#">Контакты</a></li>
-            </ul>
-        </nav>
-        <div class="user-actions">
-            <a href="#"><i class="fas fa-search"></i></a>
-            <a href="#"><i class="fas fa-user"></i></a>
-            <a href="#"><i class="fas fa-shopping-cart"></i></a>
-        </div>
-    </header>
-
-    <!-- Основное содержимое каталога -->
-    <section class="catalog">
-        <h2>Каталог одежды</h2>
-        
-        <div class="categories">
-            <button class="category-btn active">Все товары</button>
-            <button class="category-btn">Худи</button>
-            <button class="category-btn">Футболки</button>
-            <button class="category-btn">Штаны</button>
-            <button class="category-btn">Аксессуары</button>
-        </div>
-        
+    <?php require_once __DIR__ . "/includes/header.php"; ?>
+    
+    <div class="center-container">
         <div class="products-grid">
-            <!-- Товар 1 -->
-            <div class="product-card">
-                <img src="images/вывцв.png" alt="Худи" class="main-image">
-                <img src="images/вццвцв.png" alt="Худи другой ракурс" class="hover-image">
-                <h3>Худи "Мод Медведя"</h3>
-                <p>4 999 ₽</p>
-                <button>В корзину</button>
-            </div>
-            
-            <!-- Товар 2 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/300x300" alt="Футболка" class="main-image">
-                <img src="https://via.placeholder.com/300x300/cccccc" alt="Футболка другой ракурс" class="hover-image">
-                <h3>Футболка "Базовый стиль"</h3>
-                <p>2 499 ₽</p>
-                <button>В корзину</button>
-            </div>
-            
-            <!-- Товар 3 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/300x300" alt="Штаны" class="main-image">
-                <img src="https://via.placeholder.com/300x300/cccccc" alt="Штаны другой ракурс" class="hover-image">
-                <h3>Штаны "Уличные"</h3>
-                <p>3 799 ₽</p>
-                <button>В корзину</button>
-            </div>
-            
-            <!-- Товар 4 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/300x300" alt="Кепка" class="main-image">
-                <img src="https://via.placeholder.com/300x300/cccccc" alt="Кепка другой ракурс" class="hover-image">
-                <h3>Кепка "Street"</h3>
-                <p>1 899 ₽</p>
-                <button>В корзину</button>
-            </div>
-            
-            <!-- Товар 5 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/300x300" alt="Худи" class="main-image">
-                <img src="https://via.placeholder.com/300x300/cccccc" alt="Худи другой ракурс" class="hover-image">
-                <h3>Худи "Минимализм"</h3>
-                <p>4 299 ₽</p>
-                <button>В корзину</button>
-            </div>
-            
-            <!-- Товар 6 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/300x300" alt="Футболка" class="main-image">
-                <img src="https://via.placeholder.com/300x300/cccccc" alt="Футболка другой ракурс" class="hover-image">
-                <h3>Футболка "Графика"</h3>
-                <p>2 999 ₽</p>
-                <button>В корзину</button>
-            </div>
+            <?php foreach ($products as $product): ?>
+                <div class="product-card">
+                    <div class="image-container">
+                        <img src="<?= htmlspecialchars($product['main_image']) ?>" 
+                             alt="<?= htmlspecialchars($product['name']) ?>" 
+                             class="main-image">
+                        <?php if (!empty($product['hover_image'])): ?>
+                            <img src="<?= htmlspecialchars($product['hover_image']) ?>" 
+                                 alt="<?= htmlspecialchars($product['name']) ?> другой ракурс" 
+                                 class="hover-image">
+                        <?php endif; ?>
+                        <?php if ($product['is_preorder']): ?>
+                            <div class="pre-order-label">Предзаказ</div>
+                        <?php endif; ?>
+                    </div>
+                    <h3><?= htmlspecialchars($product['name']) ?></h3>
+                    <p><?= number_format($product['price'], 0, '', ' ') ?> ₽</p>
+                    <a href="?add_to_cart=<?= $product['id'] ?>" class="add-to-cart">Оформить предзаказ</a>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </section>
-
-    <!-- Подвал -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>О нас</h3>
-                <p>50541 – это стиль, качество и доступные цены.</p>
+    </div>
+    
+    <?php require_once __DIR__ . "/includes/footer.php"; ?>
+<!-- Модальное окно предзаказа -->
+<div class="modal fade" id="preorderModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Предзаказ товара</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="footer-section">
-                <h3>Контакты</h3>
-                <p>Email: info@fashionstore.ru</p>
-                <p>Телефон: +7 (123) 456-78-90</p>
-            </div>
-            <div class="footer-section">
-                <h3>Соцсети</h3>
-                <a href="https://vk.com/shampinionvsmetane"><i class="fab fa-vk"></i></a>
-                <a href="https://t.me/mosnews"><i class="fab fa-telegram"></i></a>
-                <a href="https://www.russianfood.com/recipes/bytype/?fid=29"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>&copy; 2024 Fashion Store. Все права защищены.</p>
-        </div>
-    </footer>
-
-    <script>
-        // Простой скрипт для фильтрации товаров по категориям
-        document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Удаляем класс active у всех кнопок
-                document.querySelectorAll('.category-btn').forEach(b => {
-                    b.classList.remove('active');
-                });
+            <div class="modal-body">
+                <div class="product-info">
+                    <img src="" id="preorderImage" alt="" class="img-fluid mb-3">
+                    <h4 id="preorderName"></h4>
+                    <p id="preorderDescription"></p>
+                    <div class="price" id="preorderPrice"></div>
+                </div>
                 
-                // Добавляем класс active текущей кнопке
-                this.classList.add('active');
-                
-                // Здесь должна быть логика фильтрации товаров
-                // В демо-версии просто показываем все товары
-            });
+                <form id="preorderForm">
+                    <input type="hidden" id="preorderProductId">
+                    <div class="mb-3">
+                        <label for="sizeSelect" class="form-label">Выберите размер:</label>
+                        <select class="form-select" id="sizeSelect" required>
+                            <option value="" selected disabled>Выберите размер</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                            <option value="XXL">XXL</option>
+                        </select>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary pre-order-btn" 
+        data-product-id="<?= $product['id'] ?>" 
+        data-product-name="<?= htmlspecialchars($product['name']) ?>" 
+        data-product-price="<?= $product['price'] ?>" 
+        data-product-image="<?= htmlspecialchars($product['image']) ?>" 
+        data-product-description="<?= htmlspecialchars($product['description']) ?>">
+    Предзаказ
+</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+  
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Обработка клика по кнопке предзаказа
+    document.querySelectorAll('.pre-order-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const productId = this.dataset.productId;
+            const productName = this.dataset.productName;
+            const productPrice = this.dataset.productPrice;
+            const productImage = this.dataset.productImage;
+            const productDescription = this.dataset.productDescription;
+            
+            // Заполняем модальное окно данными товара
+            document.getElementById('preorderProductId').value = productId;
+            document.getElementById('preorderName').textContent = productName;
+            document.getElementById('preorderPrice').textContent = productPrice + ' ₽';
+            document.getElementById('preorderImage').src = productImage;
+            document.getElementById('preorderImage').alt = productName;
+            document.getElementById('preorderDescription').textContent = productDescription;
+            
+            // Показываем модальное окно
+            const modal = new bootstrap.Modal(document.getElementById('preorderModal'));
+            modal.show();
         });
-    </script>
+    });
+    
+    // Обработка формы предзаказа
+    document.getElementById('preorderForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const productId = document.getElementById('preorderProductId').value;
+        const size = document.getElementById('sizeSelect').value;
+        
+        // Отправляем данные на сервер через AJAX
+        fetch('add_to_cart.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `product_id=${productId}&size=${size}&action=preorder`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                // Обновляем счетчик корзины
+                document.querySelector('.cart-counter').textContent = data.cart_count;
+                
+                // Закрываем модальное окно
+                bootstrap.Modal.getInstance(document.getElementById('preorderModal')).hide();
+                
+                // Показываем уведомление
+                alert('Товар добавлен в корзину!');
+            } else {
+                alert('Ошибка: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Произошла ошибка при добавлении товара в корзину');
+        });
+    });
+});
+</script>
 </body>
 </html>
