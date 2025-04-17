@@ -1,134 +1,149 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>Каталог одежды | 50541</title>
+    <title>Фотогалерея | 50541</title>
     <?php
     require_once __DIR__ . "/connection.php";
     $header_path = __DIR__ . "/includes/header.php";
     $banner_path = __DIR__ . "/includes/banner.php";
     $footer_path = __DIR__ . "/includes/footer.php";
     $head_path = __DIR__ . "/includes/head.php";
-    $hudi_path = __DIR__ . "/includes/hudi.php";
-    // Получаем худи с ID=1 из базы данных
-    $product_id = 1;
-    $query = "SELECT * FROM products WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $product_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $hoodie = $result->fetch_assoc();
+    
+    // Получаем избранные фотографии из галереи
+    $query = "SELECT * FROM gallery WHERE is_featured = 1 ORDER BY created_at DESC";
+    $result = $conn->query($query);
+    $featured_photos = [];
+    if ($result) {
+        $featured_photos = $result->fetch_all(MYSQLI_ASSOC);
+    }
     
     require_once $head_path;
     ?>
     <style>
-        body {
-            background-color: #eee7dd !important;
-            margin: 0;
-            font-family: Arial, sans-serif;
+        .gallery-section {
+            padding: 40px 5%;
+            margin: 0 auto;
+            background-color: transparent;
+            position: relative;
+            max-width: 1400px;
         }
         
-        /* Измененный стиль для центрирования с меньшими отступами */
-        .center-container {
+        .gallery-frame {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .gallery-track {
             display: flex;
-            justify-content: center;
+            transition: transform 0.5s ease;
+            will-change: transform;
+        }
+        
+        .gallery-item {
+            flex: 0 0 100%;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+        
+        @media (min-width: 576px) {
+            .gallery-item {
+                flex: 0 0 50%;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .gallery-item {
+                flex: 0 0 25%;
+            }
+        }
+        
+        .gallery-image-container {
+            height: 300px;
+            display: flex;
             align-items: center;
-            min-height: 0; /* Убрали фиксированную высоту */
-            padding: 20px 0; /* Оставили только вертикальные отступы */
-            margin: 20px 0; /* Добавили небольшие отступы сверху и снизу */
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         
-        /* Остальные стили остаются без изменений */
-        .catalog {
-            padding: 50px;
+        .gallery-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
         }
         
-        .catalog h2 {
-            font-size: 32px;
-            text-align: center;
-            margin-bottom: 40px;
+        .gallery-item:hover .gallery-image-container img {
+            transform: scale(1.05);
         }
         
-        .categories {
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #ff6b6b;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 24px;
+            z-index: 20;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .nav-arrow:hover {
+            background-color: #ff5252;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .prev-arrow {
+            left: 0;
+            transform: translate(-50%, -50%);
+        }
+        
+        .next-arrow {
+            right: 0;
+            transform: translate(50%, -50%);
+        }
+        
+        .gallery-dots {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 30px;
         }
         
-        .category-btn {
-            padding: 10px 20px;
-            background-color: #f0f0f0;
-            border: none;
-            border-radius: 20px;
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ccc;
             cursor: pointer;
             transition: all 0.3s;
         }
         
-        .category-btn:hover, .category-btn.active {
+        .dot.active {
             background-color: #ff6b6b;
-            color: white;
-        }
-        
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
-        
-        .center-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px 0; /* Уменьшенные отступы */
-            margin: 10px 0; /* Уменьшенные отступы */
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 10px;
-            padding: 15px; /* Уменьшенный padding */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 300px; /* Увеличили максимальную ширину */
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .image-container {
-            position: relative;
-            width: 100%;
-            height: 350px; /* Увеличили высоту контейнера */
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Изменили на cover для большего отображения */
-            border-radius: 5px;
-            transition: opacity 0.3s ease;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        
-        .product-card .hover-image {
-            position: absolute;
-            top: 0; /* Теперь начинается сверху */
-            left: 0; /* Теперь начинается слева */
-            opacity: 0;
-        }
-        
-        .product-card:hover .main-image {
-            opacity: 0;
-        }
-        
-        .product-card:hover .hover-image {
-            opacity: 1;
-        }
-        
-        .product-card button:hover {
-            background-color: #555;
+            transform: scale(1.2);
         }
     </style>
 </head>
@@ -138,28 +153,136 @@
     require_once $banner_path;
     ?>
     
-<div class="center-container">
-        <?php if ($hoodie): ?>
-            <div class="product-card">
-                <div class="image-container">
-                    <img src="<?= htmlspecialchars($hoodie['main_image']) ?>" 
-                         alt="<?= htmlspecialchars($hoodie['name']) ?>" 
-                         class="main-image">
-                    <img src="<?= htmlspecialchars($hoodie['hover_image']) ?>" 
-                         alt="<?= htmlspecialchars($hoodie['name']) ?> другой ракурс" 
-                         class="hover-image">
-                    <?php if ($hoodie['is_preorder']): ?>
-                        <div class="pre-order-label">Предзаказ</div>
-                    <?php endif; ?>
+    <main class="gallery-section">
+        <h1>Избранные фотографии</h1>
+        
+        <div class="gallery-frame">
+            <?php if (!empty($featured_photos)): ?>
+                <div class="gallery-container">
+                    <div class="gallery-track" id="galleryTrack">
+                        <?php foreach (array_merge($featured_photos, $featured_photos) as $photo): ?>
+                            <div class="gallery-item">
+                                <div class="gallery-image-container">
+                                    <img src="<?= htmlspecialchars($photo['image_path']) ?>" 
+                                         alt="<?= htmlspecialchars($photo['title']) ?>">
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-                <h3><?= htmlspecialchars($hoodie['name']) ?></h3>
-                <p><?= number_format($hoodie['price'], 0, '', ' ') ?> ₽</p>
-                <a href="order.php?id=<?= $hoodie['id'] ?>" class="button">Заказать</a>
-            </div>
-        <?php else: ?>
-            <p>Худи не найдено в базе данных</p>
-        <?php endif; ?>
-    </div>
+                
+                <button class="nav-arrow prev-arrow">&#10094;</button>
+                <button class="nav-arrow next-arrow">&#10095;</button>
+                
+                <div class="gallery-dots" id="galleryDots">
+                    <?php foreach ($featured_photos as $index => $photo): ?>
+                        <div class="dot <?= $index === 0 ? 'active' : '' ?>" data-index="<?= $index ?>"></div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <p style="text-align: center;">Нет избранных фотографий для отображения</p>
+            <?php endif; ?>
+        </div>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const track = document.getElementById('galleryTrack');
+            const prevBtn = document.querySelector('.prev-arrow');
+            const nextBtn = document.querySelector('.next-arrow');
+            const dots = document.querySelectorAll('.dot');
+            const items = document.querySelectorAll('.gallery-item');
+            const itemCount = items.length / 2;
+            let currentIndex = 0;
+            let autoSlideInterval;
+            let isAnimating = false;
+            
+            function getVisibleItems() {
+                const style = window.getComputedStyle(items[0]);
+                return style.flexBasis === '100%' ? 1 : 
+                       style.flexBasis === '50%' ? 2 : 4;
+            }
+            
+            function moveToIndex(index) {
+                if (isAnimating) return;
+                
+                isAnimating = true;
+                currentIndex = index;
+                const visibleItems = getVisibleItems();
+                const offset = -currentIndex * 100 / visibleItems;
+                
+                track.style.transition = 'transform 0.5s ease';
+                track.style.transform = `translateX(${offset}%)`;
+                
+                updateDots(currentIndex % (itemCount / visibleItems));
+                
+                setTimeout(() => {
+                    isAnimating = false;
+                    
+                    if (currentIndex >= itemCount) {
+                        track.style.transition = 'none';
+                        currentIndex = 0;
+                        track.style.transform = `translateX(0%)`;
+                    }
+                    else if (currentIndex < 0) {
+                        track.style.transition = 'none';
+                        currentIndex = itemCount - visibleItems;
+                        track.style.transform = `translateX(${-currentIndex * 100 / visibleItems}%)`;
+                    }
+                }, 500);
+            }
+            
+            function updateDots(index) {
+                dots.forEach((dot, dotIndex) => {
+                    dot.classList.toggle('active', dotIndex === index);
+                });
+            }
+            
+            function prevSlide() {
+                moveToIndex(currentIndex - 1);
+                resetAutoSlide();
+            }
+            
+            function nextSlide() {
+                moveToIndex(currentIndex + 1);
+                resetAutoSlide();
+            }
+            
+            function startAutoSlide() {
+                autoSlideInterval = setInterval(nextSlide, 3000);
+            }
+            
+            function resetAutoSlide() {
+                clearInterval(autoSlideInterval);
+                startAutoSlide();
+            }
+            
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+            
+            dots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    const visibleItems = getVisibleItems();
+                    moveToIndex(index * visibleItems);
+                    resetAutoSlide();
+                });
+            });
+            
+            window.addEventListener('resize', function() {
+                const visibleItems = getVisibleItems();
+                track.style.transform = `translateX(${-currentIndex * 100 / visibleItems}%)`;
+            });
+            
+            startAutoSlide();
+            
+            track.addEventListener('mouseenter', () => {
+                clearInterval(autoSlideInterval);
+            });
+            
+            track.addEventListener('mouseleave', startAutoSlide);
+        });
+    </script>
     
     <?php
     require_once $footer_path;
