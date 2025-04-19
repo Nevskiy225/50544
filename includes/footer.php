@@ -1,6 +1,6 @@
 <?php
 /**
- * Футер сайта Fashion Store
+ * Футер сайта 50541
  */
 ?>
 <footer class="site-footer">
@@ -11,9 +11,15 @@
                 <div class="social-header">
                     <h3 class="social-title">Наши соцсети</h3>
                 </div>
-                <div class="social-telegram">
-                    <a href="https://t.me/fashionstore" class="telegram-link" target="_blank" rel="noopener noreferrer">
+                <div class="social-links">
+                    <a href="https://t.me/shop50541" class="social-link" target="_blank" rel="noopener noreferrer">
                         <i class="fab fa-telegram"></i> Наш Telegram
+                    </a>
+                    <a href="https://vk.com/club230178208" class="social-link" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-vk"></i> Наш ВКонтакте
+                    </a>
+                    <a href="https://www.instagram.com/50541_shop" class="social-link" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-instagram"></i> Наш Instagram
                     </a>
                 </div>
             </div>
@@ -24,15 +30,17 @@
                     <h3 class="info-title">Информация</h3>
                 </div>
                 <div class="info-links">
-                    <a href="/privacy.php">Политика конфиденциальности</a>
+                    <a href="privacy-policy.php">Политика конфиденциальности</a>
                     <a href="/cookie-policy.php">Политика использования cookie</a>
                     <a href="/terms.php">Условия использования</a>
+                    <a href="/delivery.php">Условия доставки</a>
                 </div>
             </div>
         </div>
         
         <div class="footer-bottom">
-            <p class="copyright">&copy; <?php echo date('Y'); ?> Fashion Store. Все права защищены.</p>
+            <p class="copyright">&copy; <?php echo date('Y'); ?> 50541. Все права защищены.</p>
+            <p class="owner-info">Касаткин Дмитрий Алексеевич, ИНН: 524809808998</p>
         </div>
     </div>
 </footer>
@@ -90,29 +98,47 @@
     background: #ff6b6b;
 }
 
-.social-telegram {
+.social-links {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
     width: 100%;
+    align-items: center;
 }
 
-.telegram-link {
+.social-link {
     color: #ddd;
     text-decoration: none;
     font-size: 16px;
     display: inline-flex;
     align-items: center;
-    transition: color 0.3s;
-    padding: 8px 0;
+    transition: all 0.3s;
+    padding: 8px 15px;
+    border-radius: 4px;
+    width: 180px;
+    justify-content: center;
 }
 
-.telegram-link:hover {
+.social-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
     color: #ff6b6b;
 }
 
-.telegram-link i {
+.social-link i {
     margin-right: 10px;
     font-size: 20px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Цвета иконок */
+.social-link[href*="telegram"] i { color: #0088cc; }
+.social-link[href*="vk"] i { color: #4a76a8; }
+.social-link[href*="instagram"] i { 
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 /* Правая часть - Информация */
@@ -174,6 +200,12 @@
 .copyright {
     color: #999;
     font-size: 14px;
+    margin: 0 0 8px 0;
+}
+
+.owner-info {
+    color: #888;
+    font-size: 13px;
     margin: 0;
 }
 
@@ -189,6 +221,25 @@
     .footer-right {
         width: 100%;
     }
+    
+    .social-links {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .social-link {
+        width: auto;
+        padding: 8px 12px;
+    }
+}
+
+.site-footer * {
+    border-top: none !important;
+    border-bottom: none !important;
+}
+.footer-content {
+    border-bottom: 1px solid #444 !important;
 }
 </style>
 

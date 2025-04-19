@@ -1,0 +1,207 @@
+/* about.css - Стили для страницы "О нас" */
+
+/* Основная структура страницы */
+html, body {
+    overflow-x: hidden; /* Блокируем горизонтальный скролл */
+    width: 100%;
+    position: relative;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ded2c2;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+/* Основное содержимое страницы */
+main {
+    flex: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+/* Секция "О компании" */
+.about-section {
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+.about-section h1 {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+    position: relative;
+}
+
+.about-section h1:after {
+    content: '';
+    display: block;
+    width: 350px; /* Увеличенная длина полоски (было 80px) */
+    height: 4px;
+    background: #ff6b6b;
+    margin: 15px auto 0;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
+}
+
+.about-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.about-text {
+    flex: 1;
+    min-width: 300px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.about-text h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #ff6b6b;
+    position: relative;
+}
+
+.about-text h2:after {
+    display: none; /* Убираем полоски */
+}
+
+.about-image {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-image img {
+    max-width: 105%;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.team-section h2 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    position: relative;
+}
+
+.team-section h2:after {
+    content: '';
+    display: block;
+    width: 180px; /* Уменьшенная длина полоски (было 250px) */
+    height: 3px;
+    background: #ff6b6b;
+    margin: 15px auto 0;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
+}
+
+.team-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Центрируем карточки по горизонтали */
+    gap: 30px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto; /* Центрируем весь блок с карточками */
+}
+
+.team-member {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border: 1px solid #eee7dd;
+    width: 250px; /* Фиксированная ширина карточки */
+    box-sizing: border-box; /* Учитываем padding в общей ширине */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрируем содержимое карточки */
+}
+
+.team-member img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid #ff6b6b;
+    box-shadow: 0 0 0 5px white;
+}
+
+.team-member h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.team-member p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+}
+
+
+.copyright {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+
+.copyright {
+    text-align: center;
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 1px solid #555;
+    color: #aaa;
+    font-size: 14px;
+}
+@media (max-width: 767px) {
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+    }
+    .about-section h1:after {
+
+    width: 190px; /* Увеличенная длина полоски (было 80px) */
+}
+    
+    body {
+        touch-action: pan-y; /* Разрешаем только вертикальные свайпы */
+   }
+ 
+
+    .products-grid {
+        justify-content: center;
+    }
+
+    .product-card {
+        width: calc(100% - 40px);
+        max-width: 280px;
+    }
+
+
+}
+
+/* Убедитесь, что все элементы не выходят за пределы экрана */
+* {
+    box-sizing: border-box;
+}
