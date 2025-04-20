@@ -15,103 +15,7 @@ session_start();
     
     require_once $head_path;
     ?>
-    <style>
-        /* Стили для страницы политики */
-        .policy-section {
-            padding: 40px 5%;
-            margin: 0 auto;
-            background-color: transparent;
-            max-width: 1200px;
-        }
-        
-        .policy-frame {
-            background: white;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-        
-        .policy-title {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            text-align: center;
-            color: #333;
-        }
-        
-        .policy-update {
-            font-style: italic;
-            color: #666;
-            margin-bottom: 40px;
-            text-align: center;
-            display: block;
-        }
-        
-        .policy-content h2 {
-            font-size: 1.8rem;
-            margin: 40px 0 20px;
-            color: #444;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .policy-content h3 {
-            font-size: 1.4rem;
-            margin: 30px 0 15px;
-            color: #444;
-        }
-        
-        .policy-content p {
-            margin-bottom: 15px;
-            color: #555;
-            line-height: 1.6;
-        }
-        
-        .policy-content ul {
-            margin-bottom: 20px;
-            padding-left: 20px;
-        }
-        
-        .policy-content li {
-            margin-bottom: 10px;
-        }
-        
-        .policy-content a {
-            color: #ff6b6b;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .policy-content a:hover {
-            color: #ff5252;
-            text-decoration: underline;
-        }
-        
-        .contact-info {
-            background-color: #f5f5f5;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 30px;
-        }
-        
-        @media (max-width: 768px) {
-            .policy-frame {
-                padding: 25px;
-            }
-            
-            .policy-title {
-                font-size: 2rem;
-            }
-            
-            .policy-content h2 {
-                font-size: 1.5rem;
-            }
-            
-            .policy-content h3 {
-                font-size: 1.2rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/css/terms.css">
 </head>
 <body>
     <?php
@@ -119,7 +23,7 @@ session_start();
     ?>
     
     <main class="policy-section">
-        <h1 class="policy-title">Политика использования сайта 50541</h1>
+        <h1 class="policy-title">Политика использования сайта</h1>
         
         <div class="policy-frame">
             <span class="policy-update">Последнее обновление: <?php echo date('d.m.Y'); ?></span>
@@ -172,9 +76,11 @@ session_start();
                 
                 <div class="contact-info">
                     <h3>Контакты</h3>
-                    <p><i class="fas fa-envelope"></i> Email: <a href="mailto:info@50541.ru">info@50541.ru</a></p>
-                    <p><i class="fas fa-phone"></i> Телефон: +7 (XXX) XXX-XX-XX</p>
-                    <p>Режим работы: Пн-Пт с 9:00 до 18:00</p>
+                    <p>
+                        <i class="fas fa-envelope"></i>Gmail: 
+                        <a href="mailto:50541sup@gmail.com" title="Написать на 50541sup@gmail.com">50541sup@gmail.com</a>
+                    </p>
+                    <p><i class="fas fa-phone"></i> Телефон: +7 (904) 921-45-68</p>
                 </div>
             </div>
         </div>

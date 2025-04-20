@@ -1,0 +1,368 @@
+/* Основные стили для index.php */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ded2c2;
+    color: #333;
+}
+
+
+/* Баннер (уменьшенный) */
+.banner {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://via.placeholder.com/1920x800');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 80px 5%;
+    margin-bottom: 30px;
+}
+
+.banner h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.banner p {
+    font-size: 1.25rem;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Секция галереи с измененной полоской */
+.gallery-section {
+    padding: 40px 5%;
+    margin: 0 auto;
+    background-color: transparent;
+    position: relative;
+    max-width: 1400px;
+}
+
+.gallery-section h1 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.2rem;
+    color: #333;
+    position: relative;
+}
+
+.gallery-section h1:after {
+    content: '';
+    display: block;
+    width: 300px; /* Увеличенная длина полоски */
+    height: 4px;
+    background: #ff6b6b;
+    margin: 10px auto 0;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
+}
+
+.gallery-frame {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.gallery-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.gallery-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    will-change: transform;
+}
+
+.gallery-item {
+    flex: 0 0 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.gallery-image-container {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-image-container img {
+    transform: scale(1.05);
+}
+
+/* Навигация галереи */
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #ff6b6b;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    font-size: 24px;
+    z-index: 20;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+.nav-arrow:hover {
+    background-color: #ff5252;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev-arrow {
+    left: 0;
+    transform: translate(-50%, -50%);
+}
+
+.next-arrow {
+    right: 0;
+    transform: translate(50%, -50%);
+}
+
+/* Точки навигации */
+.gallery-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ccc;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.dot.active {
+    background-color: #ff6b6b;
+    transform: scale(1.2);
+}
+
+/* Адаптивность */
+@media (min-width: 576px) {
+    .gallery-item {
+        flex: 0 0 50%;
+    }
+}
+
+@media (min-width: 768px) {
+    header {
+        padding: 15px 50px;
+    }
+    
+    .banner {
+        padding: 100px 5%;
+    }
+    
+    .banner h1 {
+        font-size: 3rem;
+    }
+    
+    .banner p {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .gallery-item {
+        flex: 0 0 25%;
+    }
+    
+    .gallery-section h1 {
+        font-size: 2.5rem;
+    }
+    
+    .gallery-section h1:after {
+        width: 515px; /* Увеличение длины полоски на больших экранах */
+    }
+}
+
+/* Сообщение при отсутствии фотографий */
+.gallery-section p {
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    padding: 20px 0;
+}
+
+/* Общие стили для кнопок */
+.button {
+    display: inline-block;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    background-color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.button:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+
+.copyright {
+    text-align: center;
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 1px solid #555;
+    color: #aaa;
+    font-size: 14px;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 575px) {
+    .nav-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+    
+    .gallery-image-container {
+        height: 250px;
+    }
+    
+    .gallery-section h1 {
+        font-size: 1.8rem;
+    }
+    
+    .gallery-section h1:after {
+        width: 180px; /* Адаптация длины полоски для мобильных */
+    }
+}
+
+/* Стили для кнопки "В каталог" в баннере */
+.catalog-btn {
+    display: inline-block;
+    padding: 18px 45px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #ff6b6b;
+    color: white;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.catalog-btn:hover {
+    background-color: #ff5252;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+}
+
+.catalog-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Эффект при нажатии */
+.catalog-btn:after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 120%;
+    height: 120%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.5s, opacity 1s;
+    opacity: 0;
+}
+
+.catalog-btn:hover:after {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .catalog-btn {
+        padding: 15px 35px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .catalog-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 767px) {
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+    }
+    
+    body {
+        touch-action: pan-y;
+    }
+    
+   
+
+    .products-grid {
+        justify-content: center;
+    }
+
+    .product-card {
+        width: calc(100% - 40px);
+        max-width: 280px;
+    }
+
+    
+}
+
+/* Убедитесь, что все элементы не выходят за пределы экрана */
+* {
+    box-sizing: border-box;
+}

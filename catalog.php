@@ -6,7 +6,7 @@ require_once __DIR__ . "/connection.php";
 if (isset($_GET['add_to_cart'])) {
     $product_id = (int)$_GET['add_to_cart'];
     
-    $stmt = $conn->prepare("SELECT id, name, price, main_image FROM products WHERE id = ? AND is_active = 1");
+    $stmt = $conn->prepare("SELECT id, name, price, old_price main_image FROM products WHERE id = ? AND is_active = 1");
     $stmt->bind_param("i", $product_id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -25,6 +25,7 @@ if (isset($_GET['add_to_cart'])) {
                 'id' => $product_id,
                 'name' => $product['name'],
                 'price' => $product['price'],
+                'old_price' => $product['old_price'],
                 'image' => $product['main_image'],
                 'quantity' => 1
             ];
@@ -47,92 +48,14 @@ if ($result) {
 <html lang="ru">
 <head>
     <title>Каталог одежды | 50541</title>
+    <link rel="stylesheet" href="css/catalog.css?v=<?= time() ?>"> <!-- Добавлен параметр версии -->
     <?php require_once __DIR__ . "/includes/head.php"; ?>
-    <style>
-    /* Специфичные стили только для catalog.php */
-    .center-container {
-        padding: 20px 0;
-        margin: 20px 0;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-    }
-    
-    .products-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 280px)); /* Фиксированная ширина колонок */
-        gap: 30px;
-        padding: 0 20px;
-        width: 100%;
-        max-width: 1200px;
-        justify-content: center; /* Центрируем колонки сетки */
-    }
-    
-    .product-card {
-        padding: 15px;
-        width: 280px; /* Фиксированная ширина карточки */
-        cursor: pointer;
-        transition: transform 0.3s;
-    }
-
-    .product-card:hover {
-        transform: translateY(-5px);
-    }
-
-    .image-container {
-        height: 350px;
-        width: 100%;
-    }
-    
-    .product-card h3 {
-        font-size: 16px;
-        font-weight: 500;
-        margin: 10px 0 5px;
-        color: #333;
-        text-decoration: none;
-        text-align: center; /* Центрируем текст */
-    }
-    
-    .product-card p {
-        margin-bottom: 15px;
-        font-size: 18px;
-        font-weight: bold;
-        color: #ff6b6b;
-        text-decoration: none;
-        text-align: center; /* Центрируем текст */
-    }
-    
-    .pre-order-label {
-        top: 10px;
-        right: 10px;
-        padding: 5px 10px;
-        font-size: 12px;
-    }
-
-    .product-card-link {
-        text-decoration: none;
-        display: flex;
-        justify-content: center;
-    }
-
-    /* Медиазапрос для мобильных устройств */
-    @media (max-width: 600px) {
-        .products-grid {
-            grid-template-columns: 280px; /* Одна колонка на мобильных */
-            gap: 20px;
-            padding: 0 10px;
-        }
-        
-        .center-container {
-            padding: 10px 0;
-        }
-    }
-</style>
 </head>
 <body>
     <?php require_once __DIR__ . "/includes/header.php"; ?>
     
     <div class="center-container">
+        <h1 class="catalog-title">Худи</h1>
         <div class="products-grid">
             <?php foreach ($products as $product): ?>
                 <a href="product.php?id=<?= $product['id'] ?>" class="product-card-link">
@@ -149,9 +72,19 @@ if ($result) {
                             <?php if ($product['is_preorder']): ?>
                                 <div class="pre-order-label">Предзаказ</div>
                             <?php endif; ?>
+                            <?php if (!empty($product['old_price']) && $product['old_price'] > $product['price']): ?>
+                                <div class="discount-label">-<?= round(100 - ($product['price'] / $product['old_price'] * 100)) ?>%</div>
+                            <?php endif; ?>
                         </div>
                         <h3><?= htmlspecialchars($product['name']) ?></h3>
-                        <p><?= number_format($product['price'], 0, '', ' ') ?> ₽</p>
+                        <div class="price-container">
+                            <?php if (!empty($product['old_price']) && $product['old_price'] > $product['price']): ?>
+                                <span class="old-price"><?= number_format($product['old_price'], 0, '', ' ') ?> ₽</span>
+                                <span class="new-price"><?= number_format($product['price'], 0, '', ' ') ?> ₽</span>
+                            <?php else: ?>
+                                <span class="price"><?= number_format($product['price'], 0, '', ' ') ?> ₽</span>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </a>
             <?php endforeach; ?>
